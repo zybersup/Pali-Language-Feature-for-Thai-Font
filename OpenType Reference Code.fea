@@ -1,0 +1,51 @@
+# ---------------------------------------------------------------------------
+# OpenType Feature: Localized Forms (locl) for Thai-Pali/Sanskrit
+# ---------------------------------------------------------------------------
+# Purpose: Automatically substitute yoYing (ญ) and thoThan (ฐ) with
+# their base-less/descender-less forms when the language is set to
+# Pali (pi/pli) or Sanskrit (sa/san).
+# ---------------------------------------------------------------------------
+
+# 1. Character Class Definitions
+# Note: Ensure the glyph names on the right (yoYing.pali, thoThan.pali)
+# match the actual glyph names in your font file.
+
+@TARGET_CHARS = [yoYing thoThan];
+@PALI_FORMS   = [yoYing.pali thoThan.pali];
+
+# 2. Localized Forms Feature (locl)
+feature locl {
+    script thai; # Apply specifically to Thai script
+
+    # --- Pali Support ---
+    # 'PAL ' is the primary OpenType Language Tag for Pali
+    language PAL  exclude_dflt;
+        sub yoYing by yoYing.pali;
+        sub thoThan by thoThan.pali;
+
+    # 'PLI ' is used by some systems referencing ISO 639-2
+    language PLI  exclude_dflt;
+        sub yoYing by yoYing.pali;
+        sub thoThan by thoThan.pali;
+
+    # --- Sanskrit Support ---
+    # Sanskrit written in Thai script typically follows the same orthography
+    language SAN  exclude_dflt;
+        sub yoYing by yoYing.pali;
+        sub thoThan by thoThan.pali;
+
+} locl;
+
+# ---------------------------------------------------------------------------
+# Optional: Stylistic Set 01 (ss01)
+# Highly recommended for manual override in applications that do not
+# support language-based localized forms.
+# ---------------------------------------------------------------------------
+
+feature ss01 {
+    featureNames {
+        name "Thai Pali/Sanskrit Forms"; # Display name in apps like Adobe InDesign
+    };
+    sub yoYing by yoYing.pali;
+    sub thoThan by thoThan.pali;
+} ss01;
