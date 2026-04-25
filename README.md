@@ -141,8 +141,9 @@ While various technical solutions can achieve this, the accompanying .fea file p
 
 ## **References**
 
-* https://www.facebook.com/theppitak/posts/pfbid022gBrgMYTQgyvH19Yg1KLdEhYWPW1NrpT8k9gN3C1TLVVTQAQBYVftGCaRUDG1Sfkl
-* https://bugs.documentfoundation.org/show_bug.cgi?id=139607
-* https://learn.microsoft.com/en-us/answers/questions/5091028/how-can-i-utilize-open-type-font-features-of-my-cu
-* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Fonts/OpenType_fonts_guide
-* https://learn.microsoft.com/en-us/typography/script-development/thai
+* [ชวนคนทำฟอนต์และนักพัฒนาคุยเรื่องการรองรับการพิมพ์คาถาบาลี-สันสกฤตอักษรไทย](https://www.facebook.com/theppitak/posts/pfbid022gBrgMYTQgyvH19Yg1KLdEhYWPW1NrpT8k9gN3C1TLVVTQAQBYVftGCaRUDG1Sfkl)
+* [ThaiLaTeX Now Supports Pali-Sanskrit ](https://thep.blogspot.com/2010/09/thailatex-now-supports-pali-sanskrit.html)
+* [Request for new language choice in Character dialog box in LibreOffice](https://bugs.documentfoundation.org/show_bug.cgi?id=139607)
+* [Question about utilizing OpenType font features in Microsoft Word](https://learn.microsoft.com/en-us/answers/questions/5091028/how-can-i-utilize-open-type-font-features-of-my-cu)
+* [OpenType font features](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Fonts/OpenType_fonts_guide)
+* [Developing OpenType Fonts for Thai Script](https://learn.microsoft.com/en-us/typography/script-development/thai)
