@@ -90,7 +90,7 @@ This project proposes using language-aware rendering instead of creating new cha
 
 Preliminary testing with the modified prototype font shows that it functions correctly in:
 
-* **Browsers:** Google Chrome, Firefox, Safari (via CSS font-feature-settings หรือ HTML lang attribute)
+* **Browsers:** Google Chrome, Firefox, Safari (via CSS font-feature-settings or HTML lang attribute)
   Test example: https://linux.thai.net/~thep/test/palitest-ss01-woff.html
 * **Office Suite:** LibreOffice (via character language settings)
 
