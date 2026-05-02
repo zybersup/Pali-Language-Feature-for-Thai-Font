@@ -1,7 +1,5 @@
 ## **ข้อเสนอการพัฒนาฟีเจอร์ภาษาบาลีสำหรับฟอนต์อักษรไทย**
 
-**Description:**
-
   โครงการริเริ่มเพื่อปรับปรุงการแสดงผลภาษาบาลีด้วยฟอนต์อักษรไทย โดยมุ่งเน้นการวางแนวทางให้การใช้ภาษาบาลีบนแพลตฟอร์มดิจิทัลมีความถูกต้องตามอักขรวิธี สะดวก และเป็นไปในทิศทางเดียวกัน
 
   An initiative to enhance Pali orthography in Thai fonts. This project provides a framework for ensuring accurate and consistent script support across digital platforms. *(English details are below.)*
@@ -13,29 +11,37 @@
 **ข้อจำกัดในปัจจุบัน:**
 
 * ฟอนต์ไทยส่วนใหญ่มักผูกรูป "ไม่มีเชิง/ไม่มีฐาน" ไว้กับกลไกการหลบหลีกเมื่อมีสระล่างหรือพินทุเท่านั้น  
-* เมื่อใช้งานในบริบทภาษาบาลีแท้ๆ ที่ต้องตัดเชิง/ฐานออกทุกกรณี ผู้ใช้งานต้องเลือกเปลี่ยนรูปอักษร (glyph) ด้วยตนเอง (manual substitution) หรือใช้ Font พิเศษแยกต่างหาก  
+* เมื่อใช้งานในบริบทภาษาบาลีแท้ๆ ที่ต้องตัดเชิง/ฐานออกทุกกรณี ผู้ใช้งานต้องเลือกเปลี่ยนรูปอักษร (glyph) ด้วยตนเอง (manual substitution) หรือใช้ฟอนต์พิเศษแยกต่างหาก  
 * ฟอนต์ไทยเกือบทั้งหมดในท้องตลาด ยังไม่มีการระบุ **Language Tag** เพื่อรองรับฟีเจอร์การเปลี่ยนรูปอัตโนมัติ (localized forms) ตามมาตรฐาน OpenType
 
 **ผลกระทบของปัญหา**
 
 * ความผิดพลาดในการแสดงรูปอักษรที่ถูกต้อง เนื่องจากความยุ่งยากในการเลือกเปลี่ยนรูปอักษรด้วยตนเอง
-* **ความถูกต้องของข้อมูล (semantic integrity):** การที่ฟอนต์ไม่รองรับ ทำให้เกิดการ "Hack" ฟอนต์หรือการใช้ตัวอักษรผิดประเภทเพื่อให้ได้ภาพที่ถูกต้อง (เช่น การนำอักขระอื่นมาตกแต่ง) ซึ่งส่งผลเสียต่อการสืบค้นข้อมูล (Search) และการประมวลผลทางภาษาในอนาคต
+* **ความถูกต้องของข้อมูล (semantic integrity):** การที่ฟอนต์ไม่รองรับ ทำให้เกิดการ "hack" ฟอนต์หรือการใช้ตัวอักษรผิดประเภทเพื่อให้ได้ภาพที่ถูกต้อง (เช่น การนำอักขระอื่นมาตกแต่ง) ซึ่งส่งผลเสียต่อการสืบค้นข้อมูล (search) และการประมวลผลทางภาษาในอนาคต
 
 ### **2\. ข้อเสนอการแก้ไข**
 
 เสนอให้ใช้กลไกการรับรู้ภาษา (Language-aware rendering) แทนการสร้างรหัสอักขระใหม่ เพื่อให้ข้อมูลยังคงความเป็น Unicode มาตรฐาน:
 
-1. **การเปลี่ยนรูปอักษร (Glyph Substitution):** เมื่อระบุรหัสภาษาเป็นบาลี (pi/pli) หรือสันสกฤต (sa/san) ให้ฟอนต์สลับรูป ญ และ ฐ เป็นแบบไม่มีเชิง/ฐานอัตโนมัติ ผ่านฟีเจอร์ **locl (Localized Forms)**  
-2. **การกำหนดชุดสไตล์สำรอง (Stylistic Set):** กำหนดให้ใช้ฟีเจอร์ **ss01** เป็นมาตรฐานกลางสำหรับสลับรูปอักษรบาลี เพื่อรองรับซอฟต์แวร์ที่ไม่รองรับ Language Tag (เช่น Microsoft Word)
+1. **การสลับรูปเบื้องต้น (Primary Substitution) ผ่าน `ccmp`:** ใช้ฟีเจอร์ `ccmp` เพื่อสลับรูป ญ และ ฐ เป็นแบบไม่มีเชิง/ฐานทันทีตามรหัสภาษา เนื่องจาก `ccmp` เป็นฟีเจอร์บังคับที่ทุก engine ต้องประมวลผลเป็นอันดับต้นๆ
+2. **การเปลี่ยนรูปอักษร (Glyph Substitution):** เมื่อระบุรหัสภาษาเป็นบาลี (pi/pli) หรือสันสกฤต (sa/san) ให้ฟอนต์สลับรูป ญ และ ฐ เป็นแบบไม่มีเชิง/ฐานอัตโนมัติ ผ่านฟีเจอร์ **locl (Localized Forms)**
+3. **การกำหนดชุดสไตล์สำรอง (Stylistic Set):** กำหนดให้ใช้ฟีเจอร์ **ss01** เป็นมาตรฐานกลางสำหรับสลับรูปอักษรบาลี เพื่อรองรับซอฟต์แวร์ที่ไม่รองรับ Language Tag (เช่น Microsoft Word) โดยผู้ใช้งานสามารถเลือกเปลี่ยนรูปด้วยตัวเอง (manual override)
+
+ทั้งนี้ ต้องเพิ่ม
+
+* **การกำหนดตำแหน่ง (Positioning) ผ่าน `mark`:** เมื่อรูปอักษรเปลี่ยนไป (ไม่มีเชิง) ตำแหน่งของพินทุ (ฺ) จะต้องถูกขยับขึ้นไปวางชิดตัวอักษรมากขึ้นผ่านการกำหนด Anchor Point ใหม่ในตาราง GPOS เพื่อความสวยงามและอ่านง่าย
 
 ### **3\. ผลลัพธ์ที่คาดหวัง**
 
-* **Web Browsers:** รองรับผ่าน HTML Tag เช่น \<span lang="pi"\>ปญฺญา\</span\> เบราว์เซอร์จะแสดงผล ญ แบบไม่มีเชิงโดยอัตโนมัติ (ทดสอบแล้วได้ผลดีใน Chrome และ Firefox)  
-* **LibreOffice:** ตั้งแต่เวอร์ชัน 7.2.0 เป็นต้นไป ผู้ใช้สามารถเลือกภาษา **"Pali Thai"** ในเมนู Character Format ได้โดยตรง ซึ่งจะเรียกใช้ฟีเจอร์ในฟอนต์ตามมาตรฐานนี้ทันที  
-* **Microsoft Word:** แม้จะยังไม่รองรับ Language Tag ของภาษาไทย แต่การใส่ฟีเจอร์ ss01 จะช่วยให้ผู้ใช้มีทางเลือกในการเปลี่ยนรูปอักษรให้ถูกต้องได้ผ่านเมนู Stylistic Sets
-* **Desktop Apps:** ในโปรแกรมที่รองรับ (เช่น LibreOffice, Adobe InDesign) เมื่อตั้งค่าภาษาของข้อความ (language) เป็น Pali รูปอักษรจะเปลี่ยนให้ถูกต้องตามอักขรวิธีทันที  
-* **Standardization:** นักพัฒนาฟอนต์ไทยสามารถใช้แนวทางนี้เป็นมาตรฐานเดียวกัน เพื่อลดความซ้ำซ้อนและเพิ่มความถูกต้องในการเผยแพร่คัมภีร์และตำราทางศาสนาในรูปแบบดิจิทัล
-
+* **ความแม่นยำ:** อักขระจะเปลี่ยนรูปทันทีที่ระบุภาษาบาลี ไม่ว่าจะอยู่ในตำแหน่งใดของคำ
+* **ความสวยงาม:** เครื่องหมายพินทุจะวางอยู่ในตำแหน่งที่เหมาะสมกับรูปอักษรที่ไม่มีเชิง
+* **การรองรับวงกว้าง:** ทำงานได้ดีทั้งใน Web Browsers, LibreOffice และลดปัญหาในโปรแกรมตระกูล Adobe หรือ Microsoft
+  * **Web Browsers:** รองรับผ่าน HTML Tag เช่น \<span lang="pi"\>ปญฺญา\</span\> เบราว์เซอร์จะแสดงผล ญ แบบไม่มีเชิงโดยอัตโนมัติ (ทดสอบแล้วได้ผลดีใน Chrome และ Firefox)  
+  * **LibreOffice:** ตั้งแต่เวอร์ชัน 7.2.0 เป็นต้นไป ผู้ใช้สามารถเลือกภาษา **"Pali Thai"** ในเมนู Character Format ได้โดยตรง ซึ่งจะเรียกใช้ฟีเจอร์ในฟอนต์ตามมาตรฐานนี้ทันที  
+  * **Microsoft Word:** แม้จะยังไม่รองรับ Language Tag ของภาษาไทย แต่การใส่ฟีเจอร์ ss01 จะช่วยให้ผู้ใช้มีทางเลือกในการเปลี่ยนรูปอักษรให้ถูกต้องได้ผ่านเมนู Stylistic Sets
+  * **Desktop Apps:** ในโปรแกรมที่รองรับ (เช่น LibreOffice, Adobe InDesign) เมื่อตั้งค่าภาษาของข้อความ (language) เป็น Pali รูปอักษรจะเปลี่ยนให้ถูกต้องตามอักขรวิธีทันที  
+  * **Standardization:** นักพัฒนาฟอนต์ไทยสามารถใช้แนวทางนี้เป็นมาตรฐานเดียวกัน เพื่อลดความซ้ำซ้อนและเพิ่มความถูกต้องในการเผยแพร่คัมภีร์และตำราทางศาสนาในรูปแบบดิจิทัล
+  
 ### **4\. ผลการทดสอบ**
 
 จากการทดสอบเบื้องต้นในฟอนต์ต้นแบบ (ที่ได้รับการแก้ไขแล้ว) พบว่าสามารถทำงานได้สมบูรณ์ใน:
@@ -75,17 +81,25 @@ When writing Pali in Thai script, specific orthographic rules dictate that the c
 
 This project proposes using language-aware rendering instead of creating new character codes, maintaining standard Unicode integrity:
 
-1. **Glyph Substitution:** When the text language is set to Pali (pi/pli) or Sanskrit (sa/san), the font should automatically substitute ญ and ฐ with their baseless counterparts using the OpenType **locl (Localized Forms)** feature.  
-2. **Standardized Stylistic Set:** Establishing **ss01** as a standardized Stylistic Set for Pali forms provides a consistent manual override for applications that do not support language-based features (e.g., Microsoft Word).
+1. **Early Substitution via `ccmp`:** Utilizing the `ccmp` (Glyph Composition) feature to handle language-based substitution. As `ccmp` is a mandatory feature processed early in the pipeline, it ensures the substitution occurs even in less compliant rendering engines.
+2. **Glyph Substitution:** When the text language is set to Pali (pi/pli) or Sanskrit (sa/san), the font should automatically substitute ญ and ฐ with their baseless counterparts using the OpenType **locl (Localized Forms)** feature.  
+3. **Standardized Stylistic Set:** Establishing **ss01** as a standardized Stylistic Set for Pali forms provides a consistent manual override for applications that do not support language-based features (e.g., Microsoft Word).
 
+Therefore it is needed to
+
+* **Refined Positioning via `mark`:** Once the baseless glyph is triggered, any associated marks (like Phinthu) must be repositioned. By defining specific Anchor Points for the baseless forms in the GPOS table, the font ensures visual clarity.
+   
 ### **3\. Expected Behavior**
 
-* **Web Browsers:** Using standard HTML language attributes (e.g., \<span lang="pi"\>) will automatically trigger the correct Pali forms; verified in modern browsers like Chrome and Firefox.  
-* **LibreOffice:** From version 7.2.0 onwards, users can select **"Pali Thai"** in the Character Format menu, natively triggering these font features.  
-* **Microsoft Word:** While Microsoft Word lacks Thai language tag support, the standardized **ss01** feature allows a consistent workaround via the Stylistic Sets menu.
-* **Office/Desktop:** Selecting "Pali" as the text language in supported software (e.g., LibreOffice, InDesign) will render the characters correctly without manual intervention.
-* **Standardization:** Thai font developers can adopt this approach as a common standard to reduce redundancy and improve accuracy in the digital publication of religious scriptures and texts.
-
+* **Accuracy:** Automatic substitution occurs regardless of the character's position within a word.
+* **Aesthetics:** Subscript marks are perfectly aligned with the baseless forms.
+* **Broad Support:** Reliable performance across Browsers, LibreOffice, and improved compatibility with Adobe and Microsoft suites.
+  * **Web Browsers:** Using standard HTML language attributes (e.g., \<span lang="pi"\>) will automatically trigger the correct Pali forms; verified in modern browsers like Chrome and Firefox.  
+  * **LibreOffice:** From version 7.2.0 onwards, users can select **"Pali Thai"** in the Character Format menu, natively triggering these font features.  
+  * **Microsoft Word:** While Microsoft Word lacks Thai language tag support, the standardized **ss01** feature allows a consistent workaround via the Stylistic Sets menu.
+  * **Office/Desktop:** Selecting "Pali" as the text language in supported software (e.g., LibreOffice, InDesign) will render the characters correctly without manual intervention.
+  * **Standardization:** Thai font developers can adopt this approach as a common standard to reduce redundancy and improve accuracy in the digital publication of religious scriptures and texts.
+  
 ### **4\. Proof of Concept**
 
 Preliminary testing with the modified prototype font shows that it functions correctly in:
@@ -108,10 +122,30 @@ This is a community-driven initiative by Thai font developers and experts to cre
 
 While various technical solutions can achieve this, the accompanying .fea file provides a reference implementation using OpenType features:
 
+* **Early Substitution (ccmp):** For maximum compatibiliry and stability based on language settings.
 * **Localized Forms (locl):** For automatic substitution based on language settings.  
 * **Stylistic Set (ss01):** For manual override in applications that do not support language-aware features.
 
-    
+        # Early glyph substitution in the ccmp table for maximum stability
+        feature ccmp {
+            script thai;
+            
+            # Pali Language Support
+            language PAL  exclude_dflt;
+                sub yoYing by yoYing.pali;
+                sub thoThan by thoThan.pali;
+                
+            language PLI  exclude_dflt;
+                sub yoYing by yoYing.pali;
+                sub thoThan by thoThan.pali;
+        
+            # Sanskrit Language Support
+            language SAN  exclude_dflt;
+                sub yoYing by yoYing.pali;
+                sub thoThan by thoThan.pali;
+        } ccmp;
+
+        # Standard localized forms (locl)
         feature locl {
             script thai;
             
@@ -129,7 +163,8 @@ While various technical solutions can achieve this, the accompanying .fea file p
                 sub yoYing by yoYing.pali;
                 sub thoThan by thoThan.pali;
         } locl;
-        
+
+        # Stylistic sets (ss01) for manual override
         feature ss01 {
             featureNames {
                 name "Thai Pali/Sanskrit Forms";
@@ -138,6 +173,19 @@ While various technical solutions can achieve this, the accompanying .fea file p
             sub thoThan by thoThan.pali;
         } ss01;
 
+        # Mark positioning (GPOS) to adjust Phinthu placement for baseless forms
+        # Note: Anchor values must be adjusted based on specific font metrics.
+        feature mark {
+            lookup Pali_Anchors {
+                # Positioning for standard glyphs (with base/descender)
+                pos base yoYing <anchor 300 -250> mark @MC_bottom;
+                pos base thoThan <anchor 300 -250> mark @MC_bottom;
+        
+                # Positioning for Pali glyphs (baseless) - Anchor Y is shifted up
+                pos base yoYing.pali <anchor 300 -50> mark @MC_bottom;
+                pos base thoThan.pali <anchor 300 -50> mark @MC_bottom;
+            } Pali_Anchors;
+        } mark;
 
 ## **References**
 
