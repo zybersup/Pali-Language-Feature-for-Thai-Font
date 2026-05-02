@@ -13,7 +13,27 @@
 @TARGET_CHARS = [yoYing thoThan];
 @PALI_FORMS   = [yoYing.pali thoThan.pali];
 
-# 2. Localized Forms Feature (locl)
+# Glyph Substitution Feature (ccmp)
+feature ccmp {
+    script thai;
+    
+    # --- Pali Support ---
+    language PAL  exclude_dflt;
+      sub yoYing by yoYing.pali;
+      sub thoThan by thoThan.pali;
+      
+    language PLI  exclude_dflt;
+      sub yoYing by yoYing.pali;
+      sub thoThan by thoThan.pali;
+    
+    # --- Sanskrit Support ---
+    language SAN  exclude_dflt;
+      sub yoYing by yoYing.pali;
+      sub thoThan by thoThan.pali;
+
+} ccmp;
+
+# Localized Forms Feature (locl)
 feature locl {
     script thai; # Apply specifically to Thai script
 
@@ -49,3 +69,17 @@ feature ss01 {
     sub yoYing by yoYing.pali;
     sub thoThan by thoThan.pali;
 } ss01;
+
+# Mark positioning (GPOS) to adjust Phinthu placement for baseless forms
+# Note: Anchor values must be adjusted based on specific font metrics.
+feature mark {
+    lookup Pali_Anchors {
+      # Positioning for standard glyphs (with base/descender)
+      pos base yoYing <anchor 300 -250> mark @MC_bottom;
+      pos base thoThan <anchor 300 -250> mark @MC_bottom;
+    
+      # Positioning for Pali glyphs (baseless) - Anchor Y is shifted up
+      pos base yoYing.pali <anchor 300 -50> mark @MC_bottom;
+      pos base thoThan.pali <anchor 300 -50> mark @MC_bottom;
+    } Pali_Anchors;
+} mark;
